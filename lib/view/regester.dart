@@ -22,83 +22,129 @@ class _RegesterState extends State<Regester> {
   TextEditingController fullname = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
+
+    bool isObscured = true;
+
     return StreamBuilder<User?>(
       stream: _authService.authStateStream,
       builder: (context, snapshot) {
         return Scaffold(
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: 30),
-              Icon(Icons.app_registration_rounded, size: 200),
-              SizedBox(height: 30),
+          appBar: AppBar(),
+          body: Form(
+            key: _formKey,
 
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: TextFormField(
-                  controller: fullname,
-                  decoration: InputDecoration(
-                    hintText: "Full Name",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(3),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.app_registration_rounded, size: 150),
+                SizedBox(height: 30),
+
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: TextFormField(
+                    controller: fullname,
+                    decoration: InputDecoration(
+                      hintText: "Full Name",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Full Name is required';
+                      }
+                      return null; // Valid input
+                    },
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: TextFormField(
-                  controller: telephone,
-                  decoration: InputDecoration(
-                    hintText: "Mobile Number",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(3),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: TextFormField(
+                    controller: telephone,
+                    decoration: InputDecoration(
+                      hintText: "Mobile Number",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Mobile Number is required';
+                      } else if (value.length <= 10) {
+                        return 'Mobile Number must be 10 characters long';
+                      }
+                      return null; // Valid input
+                    },
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: TextFormField(
-                  controller: email,
-                  decoration: InputDecoration(
-                    hintText: "Email",
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: TextFormField(
+                    controller: email,
+                    decoration: InputDecoration(
+                      hintText: "Email",
 
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(3),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Email is required';
+                      }
+                      return null; // Valid input
+                    },
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: TextFormField(
-                  controller: password,
-                  decoration: InputDecoration(
-                    hintText: "Password",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(3),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: TextFormField(
+                    obscureText: isObscured,
+
+                    controller: password,
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password is required';
+                      } else if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
+                      } else if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                        return 'Password must contain at least one uppercase letter';
+                      } else if (!RegExp(r'[0-9]').hasMatch(value)) {
+                        return 'Password must contain at least one number';
+                      }
+                      return null; // Valid input
+                    },
                   ),
                 ),
-              ),
-              SizedBox(height: 30),
 
-              ElevatedButton(
-                onPressed: () async {
-                  await _authcontraller.signUp(email.text, password.text);
-                  await _authcontraller.addUserToFirest(
-                    password.text,
-                    telephone.text,
-                    fullname.text,
-                  );
+                SizedBox(height: 30),
 
-                  Navigator.pop(context);
-                },
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      await _authcontraller.signUp(email.text, password.text);
+                      await _authcontraller.addUserToFirest(
+                        password.text,
+                        telephone.text,
+                        fullname.text,
+                      );
 
-                child: Text("Regester"),
-              ),
-            ],
+                      print("Valid password: ${password.text}");
+                      Navigator.pop(context);
+                    }
+                  },
+
+                  child: Text("Regester"),
+                ),
+              ],
+            ),
           ),
         );
       },

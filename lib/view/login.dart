@@ -22,73 +22,93 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
+
+    bool isObscured = true;
+
     return StreamBuilder<User?>(
       stream: _authService.authStateStream,
       builder: (context, snapshot) {
         return Scaffold(
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Opacity(
-                opacity: 0.5,
-                child: ClipOval(
-                  child: Image(
-                    image: AssetImage('images/online.jpg'),
-                    width: 250,
-                    height: 250,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              SizedBox(height: 40),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: TextFormField(
-                  controller: email,
-                  decoration: InputDecoration(
-                    hintText: "Email",
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(3),
+          body: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Opacity(
+                  opacity: 0.5,
+                  child: ClipOval(
+                    child: Image(
+                      image: AssetImage('images/online.jpg'),
+                      width: 250,
+                      height: 250,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: TextFormField(
-                  controller: password,
-                  decoration: InputDecoration(
-                    hintText: "Password",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(3),
+                SizedBox(height: 40),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: TextFormField(
+                    controller: email,
+                    decoration: InputDecoration(
+                      hintText: "Email",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Email is required';
+                      }
+                      return null; // Valid input
+                    },
                   ),
                 ),
-              ),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: TextFormField(
+                    obscureText: isObscured,
+                    controller: password,
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password is required';
+                      }
+                      return null; // Valid input
+                    },
+                  ),
+                ),
 
-              ElevatedButton(
-                onPressed: () async {
-                  await _authcontraller.signIn(email.text, password.text);
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      await _authcontraller.signIn(email.text, password.text);
 
-                  GoRouter.of(context).go('/home');
-                },
+                      GoRouter.of(context).go('/home');
+                    }
+                  },
 
-                child: Text("Login"),
-              ),
-              SizedBox(height: 10),
-              Text("if you haven an account"),
-              TextButton(
-                onPressed: () {
-                  // Ensure navigation to the register page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Regester()),
-                  );
-                },
-                child: Text("Register"),
-              ),
-            ],
+                  child: Text("Login"),
+                ),
+                SizedBox(height: 10),
+                Text("if you haven an account"),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Regester()),
+                    );
+                  },
+                  child: Text("Register"),
+                ),
+              ],
+            ),
           ),
         );
       },

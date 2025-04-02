@@ -28,12 +28,16 @@ class _DetailsState extends State<Details> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: const Center(
-          child: Text(
-            "Welcome to Product Details Page",
-            style: TextStyle(color: Colors.white),
-          ),
+          child: Text("Product Details", style: TextStyle(color: Colors.white)),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            GoRouter.of(context).go('/home');
+          },
+          icon: Icon(Icons.home),
         ),
       ),
+
       body: FutureBuilder<Product>(
         future: futureProduct,
         builder: (context, snapshot) {
@@ -53,16 +57,38 @@ class _DetailsState extends State<Details> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CarouselSlider(
-                    options: CarouselOptions(height: 400.0),
-                    items:
-                        product.images?.map((image) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Image.network(image);
-                            },
-                          );
-                        }).toList(),
+                  SizedBox(height: 0),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15), // Rounded edges
+
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        height: 450.0,
+                        autoPlay: true,
+                        enlargeCenterPage: true, // Highlights the center image
+                      ),
+                      items:
+                          product.images?.map((image) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        blurRadius: 2,
+                                        //spreadRadius: 2,
+                                      ),
+                                    ],
+                                  ),
+
+                                  child: Image.network(image),
+                                );
+                              },
+                            );
+                          }).toList(),
+                    ),
                   ),
                   const SizedBox(height: 16.0),
                   Text(

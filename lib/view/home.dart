@@ -48,18 +48,50 @@ class _HomeState extends State<Home> {
             itemCount: products.length,
             itemBuilder: (context, index) {
               final product = products[index];
-              return ListTile(
-                leading:
-                    product.thumbnail != null
-                        ? Image.network(product.thumbnail!)
-                        : Container(),
-                title: Text(product.title ?? 'No title'),
-                subtitle: Text(
-                  'Brand: ${product.brand ?? 'Unknown'}\nPrice: \$${product.price ?? '0.00'}',
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
                 ),
-                onTap: () {
-                  GoRouter.of(context).go('/details/${product.id}');
-                },
+                child: Card(
+                  elevation: 4, // Adds shadow
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15), // Rounded corners
+                  ),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(12),
+                    leading:
+                        product.thumbnail != null
+                            ? ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                10,
+                              ), // Round image corners
+                              child: Image.network(
+                                product.thumbnail!,
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                            : Container(),
+                    title: Text(
+                      product.title ?? 'No title',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      'Brand: ${product.brand ?? 'Unknown'}\nPrice: \$${product.price ?? '0.00'}',
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                      color: Colors.grey,
+                    ),
+                    onTap: () {
+                      GoRouter.of(context).go('/details/${product.id}');
+                    },
+                  ),
+                ),
               );
             },
           );
