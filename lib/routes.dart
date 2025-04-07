@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sample/contraller/authcontraller.dart';
 import 'package:sample/details.dart';
 import 'package:sample/service/service.dart';
 import 'package:sample/view/home.dart';
@@ -31,7 +30,7 @@ class Routs {
       final prefs = await SharedPreferences.getInstance();
       final bool hasSeenSplash = prefs.getBool('hasSeenSplash') ?? false;
 
-      final ac = getIt<AuthController>();
+      //final ac = getIt<AuthController>();
       final firebase = getIt<FirebaseAuth>();
 
       final User? user = firebase.currentUser;

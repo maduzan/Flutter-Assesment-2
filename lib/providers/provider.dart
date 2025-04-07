@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get_it/get_it.dart';
-import 'package:sample/model/adduser.dart';
+
 import 'package:sample/model/getuser.dart';
 import 'package:sample/service/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';

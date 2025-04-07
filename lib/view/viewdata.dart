@@ -13,6 +13,7 @@ class _UsersPageState extends State<UsersPage> {
   String? userEmail;
 
   void initState() {
+    super.initState();
     getEmail();
   }
 

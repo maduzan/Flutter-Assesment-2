@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class Getuser {
   String id;
   String email;

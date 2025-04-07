@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:sample/model/adduser.dart';
 import 'package:sample/service/service.dart';
 
@@ -34,7 +33,6 @@ class Authservice {
     }
   }
 
-  @override
   Future<void> authenticate(String email, String password) async {
     try {
       await firebaseAuth.signInWithEmailAndPassword(

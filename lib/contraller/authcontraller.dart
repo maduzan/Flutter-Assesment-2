@@ -7,13 +7,13 @@ class AuthController {
   AuthController(this.authService);
 
   Future<void> signIn(String email, String password) async {
-    var user = await authService.authenticate(email, password);
+    await authService.authenticate(email, password);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('userEmail', email);
   }
 
   Future<void> signUp(String email, String password) async {
-    var user = await authService.signUpWithEmailAndPassword(email, password);
+    await authService.signUpWithEmailAndPassword(email, password);
   }
 
   Future<void> addUserToFirest(
@@ -22,12 +22,7 @@ class AuthController {
     String telephone,
     String fullname,
   ) async {
-    var user = authService.addUserToFirestore(
-      email,
-      password,
-      telephone,
-      fullname,
-    );
+    authService.addUserToFirestore(email, password, telephone, fullname);
   }
 
   Future<void> signOut() async {
