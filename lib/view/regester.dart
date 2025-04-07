@@ -131,6 +131,7 @@ class _RegesterState extends State<Regester> {
                     if (_formKey.currentState!.validate()) {
                       await _authcontraller.signUp(email.text, password.text);
                       await _authcontraller.addUserToFirest(
+                        email.text,
                         password.text,
                         telephone.text,
                         fullname.text,

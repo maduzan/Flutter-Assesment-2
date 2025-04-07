@@ -54,6 +54,7 @@ class Authservice {
   }
 
   void addUserToFirestore(
+    String email,
     String password,
     String telephone,
     String fullname,
@@ -62,6 +63,7 @@ class Authservice {
 
     // Create Use rModel instance
     UserModel user = UserModel(
+      email: email,
       password: password,
       telephone: telephone,
       fullname: fullname,

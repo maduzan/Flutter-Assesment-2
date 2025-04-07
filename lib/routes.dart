@@ -7,6 +7,7 @@ import 'package:sample/view/home.dart';
 import 'package:sample/view/login.dart';
 import 'package:sample/view/regester.dart';
 import 'package:sample/view/splasher.dart';
+import 'package:sample/view/viewdata.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Routs {
@@ -17,6 +18,7 @@ class Routs {
       GoRoute(path: '/Login', builder: (context, state) => Login()),
       GoRoute(path: '/register', builder: (context, state) => Regester()),
       GoRoute(path: '/home', builder: (context, state) => Home()),
+      GoRoute(path: '/view', builder: (context, state) => UsersPage()),
       GoRoute(
         path: '/details/:id', // Define a dynamic path parameter
         builder: (context, state) {

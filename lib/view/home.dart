@@ -29,6 +29,12 @@ class _HomeState extends State<Home> {
             },
             icon: Icon(Icons.logout),
           ),
+          IconButton(
+            onPressed: () {
+              GoRouter.of(context).go('/view');
+            },
+            icon: Icon(Icons.person_off_outlined),
+          ),
         ],
       ),
       body: StreamBuilder<List<Product>>(

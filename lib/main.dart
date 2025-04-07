@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sample/providers/provider.dart';
 import 'routes.dart';
 import 'service/service.dart';
 
@@ -15,9 +17,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: ThemeData.dark(),
-      routerConfig: Routs().goRouter,
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => ProviderClass())],
+      child: MaterialApp.router(
+        theme: ThemeData.dark(),
+        routerConfig: Routs().goRouter,
+      ),
     );
   }
 }
